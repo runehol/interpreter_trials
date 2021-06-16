@@ -76,4 +76,12 @@ static void interpreter7_tail_calls(benchmark::State& state) {
 }
 BENCHMARK(interpreter7_tail_calls);
 
+static void interpreter8_dispatch_table_in_registers(benchmark::State& state) {
+    for (auto _ : state)
+    {
+        run(interpreter8::interpreter_run);
+    }
+}
+BENCHMARK(interpreter8_dispatch_table_in_registers);
+
 BENCHMARK_MAIN();
