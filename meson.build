@@ -8,4 +8,5 @@ executable('interpreter_trials',
 	'interpreter_trials.cpp',
 	'bytecode.cpp',
 	'interpreter1.cpp',
+	'interpreter2.cpp',
 					dependencies : benchmark_dep)

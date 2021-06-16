@@ -99,7 +99,7 @@ namespace interpreter1
         op_bnz
     };
 
-    std::pair<int32_t, uint32_t> interpreter1_run(uint8_t *program, int32_t param)
+    std::pair<int32_t, uint32_t> interpreter_run(uint8_t *program, int32_t param)
     {
         global_state.pc = program;
         global_state.regs[X0] = param;

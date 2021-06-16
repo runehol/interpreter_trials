@@ -6,7 +6,27 @@
 
 namespace interpreter1
 {
-    std::pair<int32_t, uint32_t> interpreter1_run(uint8_t *program, int32_t param);
+    std::pair<int32_t, uint32_t> interpreter_run(uint8_t *program, int32_t param);
+}
+
+namespace interpreter2
+{
+    std::pair<int32_t, uint32_t> interpreter_run(uint8_t *program, int32_t param);
+}
+
+namespace interpreter3
+{
+    std::pair<int32_t, uint32_t> interpreter_run(uint8_t *program, int32_t param);
+}
+
+namespace interpreter4
+{
+    std::pair<int32_t, uint32_t> interpreter_run(uint8_t *program, int32_t param);
+}
+
+namespace interpreter5
+{
+    std::pair<int32_t, uint32_t> interpreter_run(uint8_t *program, int32_t param);
 }
 
 #endif
