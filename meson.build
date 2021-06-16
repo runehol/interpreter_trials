@@ -15,4 +15,5 @@ executable('interpreter_trials',
 	'interpreter6.cpp',
 	'interpreter7.cpp',
 	'interpreter8.cpp',
+	'interpreter9.cpp',
 					dependencies : benchmark_dep)

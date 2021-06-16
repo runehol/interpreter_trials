@@ -84,4 +84,12 @@ static void interpreter8_dispatch_table_in_registers(benchmark::State& state) {
 }
 BENCHMARK(interpreter8_dispatch_table_in_registers);
 
+static void interpreter9_separate_flags(benchmark::State& state) {
+    for (auto _ : state)
+    {
+        run(interpreter9::interpreter_run);
+    }
+}
+BENCHMARK(interpreter9_separate_flags);
+
 BENCHMARK_MAIN();
