@@ -4,4 +4,8 @@ project('interpreter_trials', 'cpp',
 benchmark_proj = subproject('google-benchmark')
 benchmark_dep = benchmark_proj.get_variable('google_benchmark_dep')
 
-executable('interpreter_trials', 'interpreter_trials.cpp', dependencies : benchmark_dep)
+executable('interpreter_trials',
+	'interpreter_trials.cpp',
+	'bytecode.cpp',
+	'interpreter1.cpp',
+					dependencies : benchmark_dep)
