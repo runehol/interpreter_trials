@@ -20,44 +20,52 @@ void run(RunLoop run_loop)
     }
 }
 
-static void interpreter1_fibonacci(benchmark::State& state) {
+static void interpreter1_baseline(benchmark::State& state) {
     for (auto _ : state)
     {
         run(interpreter1::interpreter_run);
     }
 }
-BENCHMARK(interpreter1_fibonacci);
+BENCHMARK(interpreter1_baseline);
 
-static void interpreter2_fibonacci(benchmark::State& state) {
+static void interpreter2_state_as_parameters(benchmark::State& state) {
     for (auto _ : state)
     {
         run(interpreter2::interpreter_run);
     }
 }
-BENCHMARK(interpreter2_fibonacci);
+BENCHMARK(interpreter2_state_as_parameters);
 
-static void interpreter3_fibonacci(benchmark::State& state) {
+static void interpreter3_cycle_count_in_op_funs(benchmark::State& state) {
     for (auto _ : state)
     {
         run(interpreter3::interpreter_run);
     }
 }
-BENCHMARK(interpreter3_fibonacci);
+BENCHMARK(interpreter3_cycle_count_in_op_funs);
 
-static void interpreter4_fibonacci(benchmark::State& state) {
+static void interpreter4_pc_in_registers(benchmark::State& state) {
     for (auto _ : state)
     {
         run(interpreter4::interpreter_run);
     }
 }
-BENCHMARK(interpreter4_fibonacci);
+BENCHMARK(interpreter4_pc_in_registers);
 
-static void interpreter5_fibonacci(benchmark::State& state) {
+static void interpreter5_pc_flags_in_registers(benchmark::State& state) {
     for (auto _ : state)
     {
         run(interpreter5::interpreter_run);
     }
 }
-BENCHMARK(interpreter5_fibonacci);
+BENCHMARK(interpreter5_pc_flags_in_registers);
+
+static void interpreter6_pc_flags_cycle_count_in_registers(benchmark::State& state) {
+    for (auto _ : state)
+    {
+        run(interpreter6::interpreter_run);
+    }
+}
+BENCHMARK(interpreter6_pc_flags_cycle_count_in_registers);
 
 BENCHMARK_MAIN();
