@@ -52,4 +52,12 @@ static void interpreter4_fibonacci(benchmark::State& state) {
 }
 BENCHMARK(interpreter4_fibonacci);
 
+static void interpreter5_fibonacci(benchmark::State& state) {
+    for (auto _ : state)
+    {
+        run(interpreter5::interpreter_run);
+    }
+}
+BENCHMARK(interpreter5_fibonacci);
+
 BENCHMARK_MAIN();
