@@ -2,7 +2,7 @@
 #include <utility>
 #include "interpreter.h"
 
-namespace interpreter2
+namespace interpreter3
 {
 
     struct CpuState
@@ -21,6 +21,7 @@ namespace interpreter2
 
     void op_return(CpuState *state)
     {
+        state->cycle_count += 1;
         throw ReturnException();
     }
 
@@ -35,6 +36,7 @@ namespace interpreter2
         state->zero_flag = (v == 0);
         state->negative_flag = (v < 0);
         state->regs[dest] = v;
+        state->cycle_count += 2;
 
     }
 
@@ -49,6 +51,7 @@ namespace interpreter2
         state->zero_flag = (v == 0);
         state->negative_flag = (v < 0);
         state->regs[dest] = v;
+        state->cycle_count += 2;
     }
 
     void op_mov(CpuState *state)
@@ -57,6 +60,7 @@ namespace interpreter2
         uint8_t dest = reg>>4, src = reg & 0xf;
 
         state->regs[dest] = state->regs[src];
+        state->cycle_count += 2;
 
     }
 
@@ -69,6 +73,7 @@ namespace interpreter2
         state->pc += 4;
 
         state->regs[dest] = imm;
+        state->cycle_count += 6;
 
     }
 
@@ -76,6 +81,7 @@ namespace interpreter2
     {
         int8_t rel = *state->pc++;
         state->pc += rel;
+        state->cycle_count += 2;
     }
 
     void op_bnz(CpuState *state)
@@ -85,6 +91,7 @@ namespace interpreter2
         {
             state->pc += rel;
         }
+        state->cycle_count += 2;
     }
 
     void (*dispatch_table[])(CpuState *) =
@@ -110,7 +117,6 @@ namespace interpreter2
             while(true)
             {
                 uint8_t opcode = *state->pc++;
-                state->cycle_count += cycle_table[opcode];
                 dispatch_table[opcode](state);
 
 

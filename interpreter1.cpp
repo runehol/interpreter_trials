@@ -109,8 +109,8 @@ namespace interpreter1
             while(true)
             {
                 uint8_t opcode = *global_state.pc++;
-                dispatch_table[opcode]();
                 global_state.cycle_count += cycle_table[opcode];
+                dispatch_table[opcode]();
 
 
             }

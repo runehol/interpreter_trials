@@ -13,7 +13,7 @@ void run(RunLoop run_loop)
     {
         throw std::runtime_error("Invalid result " + std::to_string(res));
     }
-    if(cycles != 480)
+    if(cycles != 481)
     {
         throw std::runtime_error("Invalid cycle count " + std::to_string(cycles));
 
@@ -35,5 +35,13 @@ static void interpreter2_fibonacci(benchmark::State& state) {
     }
 }
 BENCHMARK(interpreter2_fibonacci);
+
+static void interpreter3_fibonacci(benchmark::State& state) {
+    for (auto _ : state)
+    {
+        run(interpreter3::interpreter_run);
+    }
+}
+BENCHMARK(interpreter3_fibonacci);
 
 BENCHMARK_MAIN();
