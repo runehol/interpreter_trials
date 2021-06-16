@@ -30,3 +30,6 @@
 *.exe
 *.out
 *.app
+*~
+subprojects/packagecache
+subprojects/benchmark-1.5.2
