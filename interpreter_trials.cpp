@@ -92,4 +92,12 @@ static void interpreter9_separate_flags(benchmark::State& state) {
 }
 BENCHMARK(interpreter9_separate_flags);
 
+static void interpreter10_only_4_parameters(benchmark::State& state) {
+    for (auto _ : state)
+    {
+        run(interpreter10::interpreter_run);
+    }
+}
+BENCHMARK(interpreter10_only_4_parameters);
+
 BENCHMARK_MAIN();
