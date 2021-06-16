@@ -68,4 +68,12 @@ static void interpreter6_pc_flags_cycle_count_in_registers(benchmark::State& sta
 }
 BENCHMARK(interpreter6_pc_flags_cycle_count_in_registers);
 
+static void interpreter7_tail_calls(benchmark::State& state) {
+    for (auto _ : state)
+    {
+        run(interpreter7::interpreter_run);
+    }
+}
+BENCHMARK(interpreter7_tail_calls);
+
 BENCHMARK_MAIN();
