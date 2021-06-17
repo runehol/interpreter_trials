@@ -14,11 +14,6 @@ namespace interpreter10
     };
 
 
-    struct ReturnException
-    {
-    };
-
-
 
 #define PARAMS CpuState *state, uint8_t *pc, uint32_t cycle_count, void *dispatch_table_void
 #define ARGS state, pc, cycle_count, dispatch_table_void
@@ -29,7 +24,7 @@ namespace interpreter10
     {
         cycle_count += 1;
         state->final_cycle_count = cycle_count;
-        throw ReturnException();
+        return;
     }
 
     void op_add(PARAMS)
@@ -141,19 +136,11 @@ namespace interpreter10
         state->regs[X0] = param;
         uint32_t cycle_count = 0;
         void *dispatch_table_void = (void*)&dispatch_table[0];
-        try
-        {
-            while(true)
-            {
-                uint8_t opcode = *pc++;
-                dispatch_table[opcode](ARGS);
-            }
 
+        uint8_t opcode = *pc++;
+        dispatch_table[opcode](ARGS);
 
-        } catch(ReturnException ex)
-        {
-            return std::make_pair(state->regs[X0], state->final_cycle_count);
-        }
+        return std::make_pair(state->regs[X0], state->final_cycle_count);
 
     }
 
