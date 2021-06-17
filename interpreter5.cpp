@@ -15,11 +15,7 @@ namespace interpreter5
     {
         int32_t regs[16] = {0};
         uint32_t cycle_count = 0;
-    };
-
-
-    struct ReturnException
-    {
+        bool exit = false;
     };
 
 
@@ -37,7 +33,8 @@ namespace interpreter5
     ReturnVal op_return(PARAMS)
     {
         state->cycle_count += 1;
-        throw ReturnException();
+        state->exit = true;
+        return RETURN_VAL;
     }
 
     ReturnVal op_add(PARAMS)
@@ -132,22 +129,18 @@ namespace interpreter5
         uint8_t *pc = program;
         state->regs[X0] = param;
         state->cycle_count = 0;
+        state->exit = false;
         Flags flags = {0, 0};
-        try
-        {
-            while(true)
-            {
-                uint8_t opcode = *pc++;
-                ReturnVal ret = dispatch_table[opcode](ARGS);
-                pc = ret.pc;
-                flags = ret.flags;
-            }
 
-
-        } catch(ReturnException ex)
+        while(!state->exit)
         {
-            return std::make_pair(state->regs[X0], state->cycle_count);
+            uint8_t opcode = *pc++;
+            ReturnVal ret = dispatch_table[opcode](ARGS);
+            pc = ret.pc;
+            flags = ret.flags;
         }
+
+        return std::make_pair(state->regs[X0], state->cycle_count);
 
     }
 

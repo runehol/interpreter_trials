@@ -15,11 +15,7 @@ namespace interpreter6
     {
         int32_t regs[16] = {0};
         uint32_t final_cycle_count = 0;
-    };
-
-
-    struct ReturnException
-    {
+        bool exit = false;
     };
 
 
@@ -39,7 +35,8 @@ namespace interpreter6
     {
         cycle_count += 1;
         state->final_cycle_count = cycle_count;
-        throw ReturnException();
+        state->exit = true;
+        return RETURN_VAL;
     }
 
     ReturnVal op_add(PARAMS)
@@ -133,24 +130,19 @@ namespace interpreter6
         CpuState *state = &local_state;
         uint8_t *pc = program;
         state->regs[X0] = param;
+        state->exit = false;
         uint32_t cycle_count = 0;
         Flags flags = {0, 0};
-        try
+        while(!state->exit)
         {
-            while(true)
-            {
-                uint8_t opcode = *pc++;
-                ReturnVal ret = dispatch_table[opcode](ARGS);
-                pc = ret.pc;
-                flags = ret.flags;
-                cycle_count = ret.cycle_count;
-            }
-
-
-        } catch(ReturnException ex)
-        {
-            return std::make_pair(state->regs[X0], state->final_cycle_count);
+            uint8_t opcode = *pc++;
+            ReturnVal ret = dispatch_table[opcode](ARGS);
+            pc = ret.pc;
+            flags = ret.flags;
+            cycle_count = ret.cycle_count;
         }
+
+        return std::make_pair(state->regs[X0], state->final_cycle_count);
 
     }
 

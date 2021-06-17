@@ -12,17 +12,14 @@ namespace interpreter1
         bool negative_flag = false;
         uint8_t *pc = nullptr;
         uint32_t cycle_count = 0;
+        bool exit = false;
     };
 
     CpuState global_state;
 
-    struct ReturnException
-    {
-    };
-
     void op_return()
     {
-        throw ReturnException();
+        global_state.exit = true;
     }
 
     void op_add()
@@ -104,23 +101,16 @@ namespace interpreter1
         global_state.pc = program;
         global_state.regs[X0] = param;
         global_state.cycle_count = 0;
-        try
+        global_state.exit = false;
+
+        while(!global_state.exit)
         {
-            while(true)
-            {
-                uint8_t opcode = *global_state.pc++;
-                global_state.cycle_count += cycle_table[opcode];
-                dispatch_table[opcode]();
-
-
-            }
-
-
-        } catch(ReturnException ex)
-        {
-            return std::make_pair(global_state.regs[X0], global_state.cycle_count);
+            uint8_t opcode = *global_state.pc++;
+            global_state.cycle_count += cycle_table[opcode];
+            dispatch_table[opcode]();
         }
 
+        return std::make_pair(global_state.regs[X0], global_state.cycle_count);
     }
 
 

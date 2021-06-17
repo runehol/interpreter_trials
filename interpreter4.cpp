@@ -11,17 +11,15 @@ namespace interpreter4
         bool zero_flag = false;
         bool negative_flag = false;
         uint32_t cycle_count = 0;
+        bool exit = false;
     };
 
-
-    struct ReturnException
-    {
-    };
 
     uint8_t *op_return(CpuState *state, uint8_t *pc)
     {
         state->cycle_count += 1;
-        throw ReturnException();
+        state->exit = true;
+        return pc;
     }
 
     uint8_t *op_add(CpuState *state, uint8_t *pc)
@@ -116,21 +114,14 @@ namespace interpreter4
         uint8_t *pc = program;
         state->regs[X0] = param;
         state->cycle_count = 0;
-        try
+        state->exit = false;
+        while(!state->exit)
         {
-            while(true)
-            {
-                uint8_t opcode = *pc++;
-                pc = dispatch_table[opcode](state, pc);
-
-
-            }
-
-
-        } catch(ReturnException ex)
-        {
-            return std::make_pair(state->regs[X0], state->cycle_count);
+            uint8_t opcode = *pc++;
+            pc = dispatch_table[opcode](state, pc);
         }
+
+        return std::make_pair(state->regs[X0], state->cycle_count);
 
     }
 
