@@ -100,4 +100,12 @@ static void interpreter10_only_4_parameters(benchmark::State& state) {
 }
 BENCHMARK(interpreter10_only_4_parameters);
 
+static void interpreter11_computed_goto(benchmark::State& state) {
+    for (auto _ : state)
+    {
+        run(interpreter11::interpreter_run);
+    }
+}
+BENCHMARK(interpreter11_computed_goto);
+
 BENCHMARK_MAIN();
